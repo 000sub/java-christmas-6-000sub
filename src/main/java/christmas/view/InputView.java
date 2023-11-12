@@ -1,5 +1,7 @@
 package christmas.view;
 
+import static christmas.exception.Exceptions.INVALID_DATE_MESSAGE;
+
 import camp.nextstep.edu.missionutils.Console;
 import christmas.domain.request.MenuRequestDto;
 import java.util.Arrays;
@@ -40,14 +42,14 @@ public class InputView {
     }
 
     private void printMenuInputMessage() {
-        System.out.println("주문하실 메뉴를 메뉴와 개수를 알려주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1");
+        System.out.println("주문하실 메뉴를 메뉴와 개수를 알려주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)");
     }
 
     private void validateNumber(String input) {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new NumberFormatException();
+            throw new NumberFormatException(INVALID_DATE_MESSAGE.getMessage());
         }
     }
 }
