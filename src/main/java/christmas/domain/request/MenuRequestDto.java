@@ -1,5 +1,7 @@
 package christmas.domain.request;
 
+import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
+
 public class MenuRequestDto {
     private final String menuName;
     private final int quantity;
@@ -20,19 +22,19 @@ public class MenuRequestDto {
 
     private static void validateInputFormat(String input) {
         if (input.split("-").length != 2) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
 
     private void validateNameLength(String name) {
         if (name.length() < 1) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
 
     private void validateQuantity(int quantity) {
         if (quantity < 1) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
 
@@ -40,7 +42,7 @@ public class MenuRequestDto {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new NumberFormatException();
+            throw new NumberFormatException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
 }
