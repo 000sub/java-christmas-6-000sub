@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class InputView {
+
     public int readDate() {
         printDateInputMessage();
         String userInput = readLine();
@@ -20,6 +21,10 @@ public class InputView {
                 .map(String::trim)
                 .map(MenuRequestDto::create)
                 .toList();
+    }
+
+    public void printExceptionMessage(String message) {
+        System.out.println(message);
     }
 
     private String readLine() {
