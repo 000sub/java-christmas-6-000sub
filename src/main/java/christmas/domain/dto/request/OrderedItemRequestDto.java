@@ -1,23 +1,23 @@
-package christmas.domain.request;
+package christmas.domain.dto.request;
 
 import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
-public class MenuRequestDto {
+public class OrderedItemRequestDto {
     private final String menuName;
     private final int quantity;
 
-    public MenuRequestDto(String menuName, int quantity) {
+    public OrderedItemRequestDto(String menuName, int quantity) {
         validateNameLength(menuName);
         validateQuantity(quantity);
         this.menuName = menuName;
         this.quantity = quantity;
     }
 
-    public static MenuRequestDto create(String menuInput) {
+    public static OrderedItemRequestDto create(String menuInput) {
         validateInputFormat(menuInput);
         String menuName = menuInput.split("-")[0];
         int quantity = parseInt(menuInput.split("-")[1]);
-        return new MenuRequestDto(menuName, quantity);
+        return new OrderedItemRequestDto(menuName, quantity);
     }
 
     private static void validateInputFormat(String input) {
@@ -44,5 +44,13 @@ public class MenuRequestDto {
         } catch (NumberFormatException e) {
             throw new NumberFormatException(INVALID_ORDER_MESSAGE.getMessage());
         }
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }

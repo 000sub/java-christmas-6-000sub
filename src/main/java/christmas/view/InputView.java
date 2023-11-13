@@ -3,7 +3,7 @@ package christmas.view;
 import static christmas.exception.Exceptions.INVALID_DATE_MESSAGE;
 
 import camp.nextstep.edu.missionutils.Console;
-import christmas.domain.dto.request.MenuRequestDto;
+import christmas.domain.dto.request.OrderedItemRequestDto;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,12 +16,12 @@ public class InputView {
         return Integer.parseInt(userInput);
     }
 
-    public List<MenuRequestDto> readMenu() {
+    public List<OrderedItemRequestDto> readMenu() {
         printMenuInputMessage();
         String userInput = readLine();
         return Arrays.stream(userInput.split(","))
                 .map(String::trim)
-                .map(MenuRequestDto::create)
+                .map(OrderedItemRequestDto::create)
                 .toList();
     }
 
