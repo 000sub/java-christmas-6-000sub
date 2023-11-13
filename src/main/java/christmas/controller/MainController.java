@@ -1,6 +1,10 @@
 package christmas.controller;
 
-import christmas.domain.request.MenuRequestDto;
+import static christmas.domain.dto.DtoMapper.convertDtosToOrderedItems;
+import static christmas.domain.dto.DtoMapper.convertOrderToDto;
+
+import christmas.domain.Order;
+import christmas.domain.OrderedItem;
 import christmas.exception.ExceptionHandler;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -21,6 +25,14 @@ public class MainController {
     public void start() {
         inputView.printInitMessage();
         int date = exceptionHandler.handle(() -> inputView.readDate());
-        List<MenuRequestDto> menus = exceptionHandler.handle(() -> inputView.readMenu());
+        Order order = getOrder(date);
+        outputView.printOrderResult(convertOrderToDto(order));
+    }
+
+    private Order getOrder(int date) {
+        return exceptionHandler.handle(() -> {
+            List<OrderedItem> orderedItems = convertDtosToOrderedItems(inputView.readMenu());
+            return Order.of(date, orderedItems);
+        });
     }
 }
