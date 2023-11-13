@@ -4,10 +4,11 @@ import static christmas.domain.MenuCategory.APPETIZER;
 import static christmas.domain.MenuCategory.BEVERAGE;
 import static christmas.domain.MenuCategory.DESSERT;
 import static christmas.domain.MenuCategory.MAIN;
+import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
 import java.util.Arrays;
 
-public enum MenuItem {
+public enum Menu {
     MUSHROOM_SOUP("양송이수프", 6000, APPETIZER),
     TAPAS("타파스", 5500, APPETIZER),
     CAESAR_SALAD("시저샐러드", 8000, APPETIZER),
@@ -22,20 +23,32 @@ public enum MenuItem {
     CHAMPAGNE("샴페인", 25000, BEVERAGE);
 
 
-    private final String menuName;
+    private final String name;
     private final int price;
     private final MenuCategory category;
 
-    MenuItem(String menuName, int price, MenuCategory category) {
-        this.menuName = menuName;
+    Menu(String name, int price, MenuCategory category) {
+        this.name = name;
         this.price = price;
         this.category = category;
     }
 
-    public static MenuItem fromMenuName(String menuName) {
-        return Arrays.stream(MenuItem.values())
-                .filter(item -> item.menuName.equals(menuName))
+    public static Menu from(String menuName) {
+        return Arrays.stream(Menu.values())
+                .filter(item -> item.name.equals(menuName))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException());
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage()));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public MenuCategory getCategory() {
+        return category;
     }
 }
