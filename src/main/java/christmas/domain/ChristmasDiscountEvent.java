@@ -11,7 +11,12 @@ public class ChristmasDiscountEvent extends DiscountEvent {
         return false;
     }
 
-    public int getDiscountAmount(int date) {
+    @Override
+    public int getDiscountAmount(Order order) {
+        int date = order.getVisitDate();
+        if (!checkEligibleDate(date)) {
+            return 0;
+        }
         return INIT_AMOUNT + (date - START_DATE) * ACCUMULATED_DISCOUNT_AMOUNT;
     }
 
