@@ -21,6 +21,7 @@ public class DtoMapper {
     }
 
     public static OrderResultDto convertOrderToDto(Order order) {
-        return new OrderResultDto(order.getOrderedItems(), order.getTotalAmount(), order.getVisitDate());
+        return new OrderResultDto(order.getOrderedItems(), order.getTotalAmount(),
+                order.getVisitDate().getDayOfMonth());
     }
 }

@@ -8,8 +8,8 @@ public class ChristmasDiscountEvent extends DiscountEvent {
 
     @Override
     public int getDiscountAmount(Order order) {
-        int date = order.getVisitDate();
-        if (!checkEligibleDate(date)) {
+        int date = order.getVisitDate().getDayOfMonth();
+        if (!canApply(order)) {
             return 0;
         }
         return INIT_AMOUNT + (date - START_DATE) * ACCUMULATED_DISCOUNT_AMOUNT;
@@ -17,7 +17,7 @@ public class ChristmasDiscountEvent extends DiscountEvent {
 
     @Override
     public boolean canApply(Order order) {
-        return checkEligibleDate(order.getVisitDate());
+        return checkEligibleDate(order.getVisitDate().getDayOfMonth());
     }
 
     private boolean checkEligibleDate(int date) {

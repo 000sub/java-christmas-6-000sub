@@ -1,19 +1,22 @@
 package christmas.domain;
 
+import static christmas.domain.Constants.CURRENT_MONTH;
+import static christmas.domain.Constants.CURRENT_YEAR;
 import static christmas.domain.Constants.MAX_ORDER_QUANTITY;
 import static christmas.domain.MenuCategory.BEVERAGE;
 import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
 public class Order {
-    private final int visitDate;
+    private final LocalDate visitDate;
     private final List<OrderedItem> orderedItems;
 
     public Order(int visitDate, List<OrderedItem> orderedItems) {
         validate(orderedItems);
-        this.visitDate = visitDate;
+        this.visitDate = LocalDate.of(CURRENT_YEAR.getValue(), CURRENT_MONTH.getValue(), visitDate);
         this.orderedItems = orderedItems;
     }
 
@@ -72,12 +75,12 @@ public class Order {
                 .map(OrderedItem::getTotalPrice)
                 .reduce(0, Integer::sum);
     }
-    
+
     public List<OrderedItem> getOrderedItems() {
         return Collections.unmodifiableList(orderedItems);
     }
 
-    public int getVisitDate() {
+    public LocalDate getVisitDate() {
         return visitDate;
     }
 }
