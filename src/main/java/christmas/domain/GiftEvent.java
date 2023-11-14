@@ -1,5 +1,9 @@
 package christmas.domain;
 
+import static christmas.domain.Menu.CHAMPAGNE;
+
+import java.util.List;
+
 public class GiftEvent extends Event {
     private static final int MINIMUM_TOTAL_AMOUNT = 120000;
 
@@ -8,7 +12,7 @@ public class GiftEvent extends Event {
         return order.getTotalAmount() > MINIMUM_TOTAL_AMOUNT;
     }
 
-    public Menu getGift() {
-        return Menu.CHAMPAGNE;
+    public List<GiftItem> getGifts() {
+        return List.of(GiftItem.of(CHAMPAGNE, 1));
     }
 }
