@@ -61,12 +61,18 @@ public class Order {
                 .count();
     }
 
+    public int getQuantityOfCategory(MenuCategory category) {
+        return (int) orderedItems.stream()
+                .filter(item -> item.getMenu().getCategory().equals(category))
+                .count();
+    }
+
     public int getTotalAmount() {
         return orderedItems.stream()
                 .map(OrderedItem::getTotalPrice)
                 .reduce(0, Integer::sum);
     }
-
+    
     public List<OrderedItem> getOrderedItems() {
         return Collections.unmodifiableList(orderedItems);
     }
