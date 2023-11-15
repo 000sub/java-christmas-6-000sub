@@ -30,7 +30,8 @@ public class DtoMapper {
 
     public static EventResultDto convertEventResultToDto(EventResult eventResult) {
         HashMap<String, Integer> rewardDetailsDto = new HashMap<>();
-        eventResult.getRewardDetails().entrySet()
+        eventResult.getRewardDetails().entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
                 .forEach(entry -> rewardDetailsDto.put(entry.getKey().getDescription(), entry.getValue()));
         return new EventResultDto(rewardDetailsDto, eventResult.getGifts(),
                 eventResult.getTotalRewardAmount(), eventResult.getExpectedPayAmount(),
