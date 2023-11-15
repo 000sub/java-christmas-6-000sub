@@ -15,49 +15,46 @@ public class Order {
     private final LocalDate visitDate;
     private final List<OrderedItem> orderedItems;
 
-    public Order(int visitDate, List<OrderedItem> orderedItems) {
-        validate(orderedItems);
-        this.visitDate = LocalDate.of(CURRENT_YEAR.getValue(), CURRENT_MONTH.getValue(), visitDate);
+    private Order(LocalDate visitDate, List<OrderedItem> orderedItems) {
+        this.visitDate = visitDate;
         this.orderedItems = orderedItems;
+        validate();
     }
 
     public static Order of(int date, List<OrderedItem> orderedItems) {
-        return new Order(date, orderedItems);
+        return new Order(LocalDate.of(CURRENT_YEAR.getValue(), CURRENT_MONTH.getValue(), date), orderedItems);
     }
 
-    private void validate(List<OrderedItem> orderedItems) {
-        validateDuplicatedItem(orderedItems);
-        validateTotalQuantity(orderedItems);
-        validateOnlyBeverages(orderedItems);
-    }
-
-    private void validateDuplicatedItem(List<OrderedItem> orderedItems) {
-        if (getUniqueMenuCount(orderedItems) != orderedItems.size()) {
+    private void validate() {
+        if (hasDuplicatedItem() || hasOnlyBeverages() || hasMoreThanMaxQuantity()) {
             throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
+    }
+
+    private boolean hasDuplicatedItem() {
+        return getUniqueMenuCount(orderedItems) != orderedItems.size();
+    }
+
+    private boolean hasMoreThanMaxQuantity() {
+        return getTotalQuantity(orderedItems) > MAX_ORDER_QUANTITY;
+    }
+
+    private boolean hasOnlyBeverages() {
+        return getBeverageQuantity(orderedItems) == getTotalQuantity(orderedItems);
+
     }
 
     private int getUniqueMenuCount(List<OrderedItem> orderedItems) {
         return (int) orderedItems.stream().distinct().count();
     }
 
-    private void validateTotalQuantity(List<OrderedItem> orderedItems) {
-        if (getTotalQuantity(orderedItems) > MAX_ORDER_QUANTITY) {
-            throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
-        }
-    }
 
     private int getTotalQuantity(List<OrderedItem> orderedItems) {
         return orderedItems.stream()
-                .map(OrderedItem::getQuantity)
+                .mapToInt(OrderedItem::getQuantity)
                 .reduce(0, Integer::sum);
     }
 
-    private void validateOnlyBeverages(List<OrderedItem> orderedItems) {
-        if (getBeverageQuantity(orderedItems) == getTotalQuantity(orderedItems)) {
-            throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
-        }
-    }
 
     private int getBeverageQuantity(List<OrderedItem> orderedItems) {
         return (int) orderedItems.stream()
