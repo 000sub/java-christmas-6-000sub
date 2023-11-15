@@ -3,6 +3,7 @@ package christmas.domain;
 import static christmas.domain.MenuCategory.DESSERT;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 public class WeekdayDiscountEvent extends DiscountEvent {
     private static final int UNIT_DISCOUNT_AMOUNT = 2023;
@@ -15,11 +16,12 @@ public class WeekdayDiscountEvent extends DiscountEvent {
 
     @Override
     protected boolean isEligible(Order order) {
-        return isWeekday(order.getVisitDate().getDayOfWeek());
+        return isWeekday(order.getVisitDate());
     }
 
-    private boolean isWeekday(DayOfWeek dayOfWeek) {
-        return dayOfWeek != DayOfWeek.FRIDAY && dayOfWeek != DayOfWeek.SATURDAY;
+    private boolean isWeekday(LocalDate date) {
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        return !WEEKEND.contains(dayOfWeek);
     }
 
 
