@@ -1,8 +1,17 @@
 package christmas.view;
 
+import static christmas.view.ViewMessages.AMOUNT_FORMAT;
+import static christmas.view.ViewMessages.EVENT_AND_DISCOUNT_AMOUNT_FORMAT;
+import static christmas.view.ViewMessages.EVENT_RESULT_INIT_MESSAGE;
+import static christmas.view.ViewMessages.MENU_NAME_AND_QUANTITY_FORMAT;
+import static christmas.view.ViewMessages.NO_RESULT;
+
+import christmas.domain.GiftItem;
 import christmas.domain.OrderedItem;
+import christmas.domain.dto.response.EventResultDto;
 import christmas.domain.dto.response.OrderResultDto;
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
     public void printOrderResult(OrderResultDto orderResultDto) {
@@ -12,37 +21,70 @@ public class OutputView {
     }
 
     private void printDate(int date) {
-        System.out.printf("12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!", date);
+        System.out.printf(EVENT_RESULT_INIT_MESSAGE.getMessage(), date);
         System.out.println();
     }
 
-    public void printOrderMenus(List<OrderedItem> orderedItems) {
+    private void printOrderMenus(List<OrderedItem> orderedItems) {
         System.out.println("<주문 메뉴>");
         for (OrderedItem orderedItem : orderedItems) {
-            System.out.printf("%s %d개", orderedItem.getMenu().getName(), orderedItem.getQuantity());
-            System.out.println();
+            System.out.printf(MENU_NAME_AND_QUANTITY_FORMAT.getMessage(), orderedItem.getMenu().getName(),
+                    orderedItem.getQuantity());
         }
-    }
-
-    public void printAmountBeforeDiscount(int amount) {
-        System.out.println("<할인 전 총주문 금액>");
-        System.out.printf("-%,d", amount);
         System.out.println();
     }
 
-    public void printGiftMenu() {
+    private void printAmountBeforeDiscount(int amount) {
+        System.out.println("<할인 전 총주문 금액>");
+        System.out.printf(AMOUNT_FORMAT.getMessage(), amount);
+        System.out.println();
+    }
+
+    public void printEventResult(EventResultDto eventResult) {
+        printGifts(eventResult.getGifts());
+        printRewards(eventResult.getRewardDetails());
+        printAmountOfRewards(eventResult.getTotalRewardAmount());
+        printExpectedPayAmount(eventResult.getExpectedPayAmount());
+        printDecemberBadge(eventResult.getBadgeName());
+    }
+
+    private void printGifts(List<GiftItem> giftItems) {
         System.out.println("<증정 메뉴>");
+        for (GiftItem giftItem : giftItems) {
+            System.out.printf(MENU_NAME_AND_QUANTITY_FORMAT.getMessage(), giftItem.getMenu().getName(),
+                    giftItem.getQuantity());
+        }
+        if (giftItems.isEmpty()) {
+            System.out.println(NO_RESULT);
+        }
+        System.out.println();
     }
 
-    public void printRewards() {
+    private void printRewards(Map<String, Integer> rewardDetails) {
         System.out.println("<혜택 내역>");
+        rewardDetails.entrySet()
+                .forEach(entry -> System.out.printf(EVENT_AND_DISCOUNT_AMOUNT_FORMAT.getMessage(), entry.getKey(),
+                        -entry.getValue()));
+        if (rewardDetails.isEmpty()) {
+            System.out.println(NO_RESULT);
+        }
+        System.out.println();
     }
 
-    public void printAmountOfRewards() {
+    private void printAmountOfRewards(int amount) {
         System.out.println("<총혜택 금액>");
+        System.out.printf(AMOUNT_FORMAT.getMessage(), -amount);
+        System.out.println();
     }
 
-    public void printExpectedPayAmount() {
+    private void printExpectedPayAmount(int amount) {
         System.out.println("<할인 후 예상 결제 금액>");
+        System.out.printf(AMOUNT_FORMAT.getMessage(), amount);
+        System.out.println();
+    }
+
+    private void printDecemberBadge(String badgeName) {
+        System.out.println("<12월 이벤트 배지>");
+        System.out.println(badgeName);
     }
 }

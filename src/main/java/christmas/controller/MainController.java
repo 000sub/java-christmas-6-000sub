@@ -1,8 +1,10 @@
 package christmas.controller;
 
 import static christmas.domain.dto.DtoMapper.convertDtosToOrderedItems;
+import static christmas.domain.dto.DtoMapper.convertEventResultToDto;
 import static christmas.domain.dto.DtoMapper.convertOrderToDto;
 
+import christmas.domain.EventResult;
 import christmas.domain.Order;
 import christmas.domain.OrderedItem;
 import christmas.exception.ExceptionHandler;
@@ -27,6 +29,8 @@ public class MainController {
         int date = exceptionHandler.handle(() -> inputView.readDate());
         Order order = getOrder(date);
         outputView.printOrderResult(convertOrderToDto(order));
+        EventResult eventResult = new EventResult(order);
+        outputView.printEventResult(convertEventResultToDto(eventResult));
     }
 
     private Order getOrder(int date) {
