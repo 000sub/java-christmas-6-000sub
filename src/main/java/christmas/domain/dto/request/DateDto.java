@@ -1,7 +1,6 @@
 package christmas.domain.dto.request;
 
 import static christmas.exception.Exceptions.INVALID_DATE_MESSAGE;
-import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
 public class DateDto {
     private static final int RANGE_START = 1;
@@ -22,7 +21,7 @@ public class DateDto {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(INVALID_ORDER_MESSAGE.getMessage());
+            throw new NumberFormatException(INVALID_DATE_MESSAGE.getMessage());
         }
     }
 
