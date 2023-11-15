@@ -2,7 +2,6 @@ package christmas.domain;
 
 import static christmas.domain.Constants.CURRENT_MONTH;
 import static christmas.domain.Constants.CURRENT_YEAR;
-import static christmas.domain.Constants.MAX_ORDER_QUANTITY;
 import static christmas.domain.MenuCategory.BEVERAGE;
 import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
@@ -11,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Order {
+    private static final int MAX_ORDER_QUANTITY = 20;
+
     private final LocalDate visitDate;
     private final List<OrderedItem> orderedItems;
 
@@ -41,7 +42,7 @@ public class Order {
     }
 
     private void validateTotalQuantity(List<OrderedItem> orderedItems) {
-        if (getTotalQuantity(orderedItems) > MAX_ORDER_QUANTITY.getValue()) {
+        if (getTotalQuantity(orderedItems) > MAX_ORDER_QUANTITY) {
             throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }

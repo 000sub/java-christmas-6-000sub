@@ -3,6 +3,8 @@ package christmas.domain.dto.request;
 import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
 public class OrderedItemRequestDto {
+    private final static int MINIMUM_MENU_NAME_LENGTH = 1;
+
     private final String menuName;
     private final int quantity;
 
@@ -27,7 +29,7 @@ public class OrderedItemRequestDto {
     }
 
     private void validateNameLength(String name) {
-        if (name.length() < 1) {
+        if (name.length() < MINIMUM_MENU_NAME_LENGTH) {
             throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
