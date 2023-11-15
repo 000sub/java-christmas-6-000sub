@@ -2,7 +2,7 @@ package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
 import christmas.domain.dto.request.DateDto;
-import christmas.domain.dto.request.OrderedItemRequestDto;
+import christmas.domain.dto.request.OrderedItemDto;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,12 +18,12 @@ public class InputView {
         return DateDto.create(userInput);
     }
 
-    public List<OrderedItemRequestDto> readMenu() {
+    public List<OrderedItemDto> readMenu() {
         printMenuInputMessage();
         String userInput = readLine();
         return Arrays.stream(userInput.split(","))
                 .map(String::trim)
-                .map(OrderedItemRequestDto::create)
+                .map(OrderedItemDto::create)
                 .toList();
     }
 

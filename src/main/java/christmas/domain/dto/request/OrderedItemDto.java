@@ -2,7 +2,7 @@ package christmas.domain.dto.request;
 
 import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
-public class OrderedItemRequestDto {
+public class OrderedItemDto {
     private static final int MINIMAL_MENU_NAME_LENGTH = 1;
     private static final int MINIMAL_QUANTITY = 1;
     private static final String FORMAT_SEPARATOR = "-";
@@ -10,18 +10,18 @@ public class OrderedItemRequestDto {
     private final String menuName;
     private final int quantity;
 
-    private OrderedItemRequestDto(String menuName, int quantity) {
+    private OrderedItemDto(String menuName, int quantity) {
         this.menuName = menuName;
         this.quantity = quantity;
         validateNameLength();
         validateQuantity();
     }
 
-    public static OrderedItemRequestDto create(String menuInput) {
+    public static OrderedItemDto create(String menuInput) {
         validateInputFormat(menuInput);
         String menuName = menuInput.split(FORMAT_SEPARATOR)[0];
         int quantity = parseInt(menuInput.split(FORMAT_SEPARATOR)[1]);
-        return new OrderedItemRequestDto(menuName, quantity);
+        return new OrderedItemDto(menuName, quantity);
     }
 
     private static void validateInputFormat(String input) {

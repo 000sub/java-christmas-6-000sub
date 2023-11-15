@@ -4,7 +4,7 @@ import christmas.domain.EventResult;
 import christmas.domain.Order;
 import christmas.domain.OrderedItem;
 import christmas.domain.dto.request.DateDto;
-import christmas.domain.dto.request.OrderedItemRequestDto;
+import christmas.domain.dto.request.OrderedItemDto;
 import christmas.domain.dto.response.EventResultDto;
 import christmas.domain.dto.response.OrderResultDto;
 import java.util.HashMap;
@@ -18,14 +18,14 @@ public class DtoMapper {
         return dateDto.getDate();
     }
 
-    public static List<OrderedItem> convertDtosToOrderedItems(List<OrderedItemRequestDto> orderedItemRequestDtos) {
-        return orderedItemRequestDtos.stream()
+    public static List<OrderedItem> convertDtosToOrderedItems(List<OrderedItemDto> orderedItemDtos) {
+        return orderedItemDtos.stream()
                 .map(DtoMapper::convertDtoToOrderedItem)
                 .toList();
     }
 
-    private static OrderedItem convertDtoToOrderedItem(OrderedItemRequestDto orderedItemRequestDto) {
-        return new OrderedItem(orderedItemRequestDto.getMenuName(), orderedItemRequestDto.getQuantity());
+    private static OrderedItem convertDtoToOrderedItem(OrderedItemDto orderedItemDto) {
+        return new OrderedItem(orderedItemDto.getMenuName(), orderedItemDto.getQuantity());
     }
 
     public static OrderResultDto convertOrderToDto(Order order) {
