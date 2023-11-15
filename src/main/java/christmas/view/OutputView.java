@@ -16,7 +16,7 @@ import java.util.Map;
 public class OutputView {
     public void printOrderResult(OrderResultDto orderResultDto) {
         printDate(orderResultDto.getDate());
-        printOrderMenus(orderResultDto.getOrderedItems());
+        printMenuItems(orderResultDto.getOrderedItems());
         printAmountBeforeDiscount(orderResultDto.getAmountBeforeDiscount());
     }
 
@@ -25,19 +25,19 @@ public class OutputView {
         System.out.println();
     }
 
-    private void printOrderMenus(List<OrderedItem> orderedItems) {
+    private void printMenuItems(List<OrderedItem> items) {
         System.out.println("<주문 메뉴>");
-        for (OrderedItem orderedItem : orderedItems) {
-            System.out.printf(MENU_NAME_AND_QUANTITY_FORMAT.getMessage(), orderedItem.getMenu().getName(),
-                    orderedItem.getQuantity());
-        }
+        items.forEach(item -> printMenuItem(item));
         System.out.println();
     }
 
+    private void printMenuItem(OrderedItem item) {
+        System.out.printf(MENU_NAME_AND_QUANTITY_FORMAT.getMessage(), item.getMenu().getName(),
+                item.getQuantity());
+    }
+
     private void printAmountBeforeDiscount(int amount) {
-        System.out.println("<할인 전 총주문 금액>");
-        System.out.printf(AMOUNT_FORMAT.getMessage(), amount);
-        System.out.println();
+        printAmountWithFormat("<할인 전 총주문 금액>", amount, false);
     }
 
     public void printEventResult(EventResultDto eventResult) {
@@ -72,15 +72,20 @@ public class OutputView {
     }
 
     private void printAmountOfRewards(int amount) {
-        System.out.println("<총혜택 금액>");
-        System.out.printf(AMOUNT_FORMAT.getMessage(), -amount);
+        printAmountWithFormat("<총혜택 금액>", amount, true);
+    }
+
+    private void printAmountWithFormat(String header, int amount, boolean shouldNegate) {
+        System.out.println(header);
+        if (shouldNegate) {
+            amount *= -1;
+        }
+        System.out.printf(AMOUNT_FORMAT.getMessage(), amount);
         System.out.println();
     }
 
     private void printExpectedPayAmount(int amount) {
-        System.out.println("<할인 후 예상 결제 금액>");
-        System.out.printf(AMOUNT_FORMAT.getMessage(), amount);
-        System.out.println();
+        printAmountWithFormat("<할인 후 예상 결제 금액>", amount, false);
     }
 
     private void printDecemberBadge(String badgeName) {
