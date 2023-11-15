@@ -40,7 +40,7 @@ public class Order {
     }
 
     private boolean hasOnlyBeverages() {
-        return getBeverageQuantity(orderedItems) == getTotalQuantity(orderedItems);
+        return getQuantityOfCategory(BEVERAGE) == getTotalQuantity(orderedItems);
 
     }
 
@@ -53,13 +53,6 @@ public class Order {
         return orderedItems.stream()
                 .mapToInt(OrderedItem::getQuantity)
                 .reduce(0, Integer::sum);
-    }
-
-
-    private int getBeverageQuantity(List<OrderedItem> orderedItems) {
-        return (int) orderedItems.stream()
-                .filter(item -> item.getMenu().getCategory().equals(BEVERAGE))
-                .count();
     }
 
     public int getQuantityOfCategory(MenuCategory category) {
