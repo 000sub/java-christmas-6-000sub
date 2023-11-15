@@ -1,19 +1,21 @@
 package christmas.view;
 
-import static christmas.exception.Exceptions.INVALID_DATE_MESSAGE;
-
 import camp.nextstep.edu.missionutils.Console;
+import christmas.domain.dto.request.DateDto;
 import christmas.domain.dto.request.OrderedItemRequestDto;
 import java.util.Arrays;
 import java.util.List;
 
 public class InputView {
 
-    public int readDate() {
+    private String readLine() {
+        return Console.readLine();
+    }
+
+    public DateDto readDate() {
         printDateInputMessage();
         String userInput = readLine();
-        validateNumber(userInput);
-        return Integer.parseInt(userInput);
+        return DateDto.create(userInput);
     }
 
     public List<OrderedItemRequestDto> readMenu() {
@@ -29,9 +31,6 @@ public class InputView {
         System.out.println(message);
     }
 
-    private String readLine() {
-        return Console.readLine();
-    }
 
     public void printInitMessage() {
         System.out.println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
@@ -44,24 +43,4 @@ public class InputView {
     private void printMenuInputMessage() {
         System.out.println("주문하실 메뉴를 메뉴와 개수를 알려주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)");
     }
-
-    private void validateNumber(String input) {
-        int number = parseInt(input);
-        if (isOutOfDateRange(number)) {
-            throw new IllegalArgumentException(INVALID_DATE_MESSAGE.getMessage());
-        }
-    }
-
-    private int parseInt(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException(INVALID_DATE_MESSAGE.getMessage());
-        }
-    }
-
-    private boolean isOutOfDateRange(int number) {
-        return number < 1 || number > 31;
-    }
-
 }

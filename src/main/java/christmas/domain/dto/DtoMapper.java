@@ -3,6 +3,7 @@ package christmas.domain.dto;
 import christmas.domain.EventResult;
 import christmas.domain.Order;
 import christmas.domain.OrderedItem;
+import christmas.domain.dto.request.DateDto;
 import christmas.domain.dto.request.OrderedItemRequestDto;
 import christmas.domain.dto.response.EventResultDto;
 import christmas.domain.dto.response.OrderResultDto;
@@ -11,6 +12,10 @@ import java.util.List;
 
 public class DtoMapper {
     private DtoMapper() {
+    }
+
+    public static int convertDtoToInt(DateDto dateDto) {
+        return dateDto.getDate();
     }
 
     public static List<OrderedItem> convertDtosToOrderedItems(List<OrderedItemRequestDto> orderedItemRequestDtos) {
