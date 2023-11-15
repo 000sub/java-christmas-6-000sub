@@ -65,9 +65,10 @@ public class Order {
     }
 
     public int getQuantityOfCategory(MenuCategory category) {
-        return (int) orderedItems.stream()
+        return orderedItems.stream()
                 .filter(item -> item.getMenu().getCategory().equals(category))
-                .count();
+                .map(OrderedItem::getQuantity)
+                .reduce(0, Integer::sum);
     }
 
     public int getTotalAmount() {
