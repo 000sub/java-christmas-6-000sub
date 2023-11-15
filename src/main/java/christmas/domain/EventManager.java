@@ -39,7 +39,7 @@ public enum EventManager {
 
     private final Function<Order, List<GiftItem>> giftFunction = order -> {
         if (this.event instanceof GiftEvent) {
-            return ((GiftEvent) this.event).getGifts();
+            return ((GiftEvent) this.event).getGifts(order);
         }
         return Collections.emptyList();
     };
