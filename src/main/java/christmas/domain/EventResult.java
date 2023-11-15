@@ -41,7 +41,7 @@ public class EventResult {
 
     public List<GiftItem> getGifts() {
         return Arrays.stream(EventManager.values())
-                .flatMap(manager -> manager.applyGift(order).stream())
+                .flatMap(manager -> manager.applyGifts(order).stream())
                 .collect(Collectors.toUnmodifiableList());
     }
 

@@ -53,7 +53,7 @@ public enum EventManager {
         return discountFunction.apply(order);
     }
 
-    public List<GiftItem> applyGift(Order order) {
+    public List<GiftItem> applyGifts(Order order) {
         return giftFunction.apply(order);
     }
 
