@@ -22,10 +22,6 @@ public enum EventManager {
         this.description = description;
     }
 
-    public Event getEventInstance() {
-        return event;
-    }
-
     public String getDescription() {
         return description;
     }
