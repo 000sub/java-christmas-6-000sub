@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class EventResult {
     private final Order order;
@@ -17,32 +19,19 @@ public class EventResult {
     }
 
     public Map<EventManager, Integer> getRewardDetails() {
-        EnumMap<EventManager, Integer> resultsPerEvent = new EnumMap<EventManager, Integer>(EventManager.class);
-        Arrays.stream(EventManager.values())
-                .forEach(manager -> {
-                    int appliedDiscount = manager.applyDiscount(order);
-                    if (appliedDiscount > 0) {
-                        resultsPerEvent.put(manager, appliedDiscount);
-                    }
-                });
-
-        Arrays.stream(EventManager.values())
-                .forEach(manager -> {
-                    Integer totalGiftValue = manager.applyGift(order).stream()
-                            .map(GiftItem::getTotalValue)
-                            .reduce(0, Integer::sum);
-
-                    if (totalGiftValue > 0) {
-                        resultsPerEvent.put(manager, totalGiftValue);
-                    }
-                });
-        return resultsPerEvent;
+        return Arrays.stream(EventManager.values())
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        manager -> manager.applyDiscount(order) + manager.applyGiftValue(order),
+                        Integer::sum,
+                        () -> new EnumMap<>(EventManager.class)
+                ));
     }
 
     public int getTotalDiscountAmount() {
         return Arrays.stream(EventManager.values())
-                .map(manager -> manager.applyDiscount(order))
-                .reduce(0, Integer::sum);
+                .mapToInt(manager -> manager.applyDiscount(order))
+                .sum();
     }
 
     public DecemberBadge getBadge() {
@@ -53,13 +42,13 @@ public class EventResult {
     public List<GiftItem> getGifts() {
         return Arrays.stream(EventManager.values())
                 .flatMap(manager -> manager.applyGift(order).stream())
-                .toList();
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public int getTotalGiftsValue() {
         return getGifts().stream()
-                .map(GiftItem::getTotalValue)
-                .reduce(0, Integer::sum);
+                .mapToInt(GiftItem::getTotalValue)
+                .sum();
     }
 
     public int getExpectedPayAmount() {

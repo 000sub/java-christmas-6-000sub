@@ -44,11 +44,24 @@ public enum EventManager {
         return Collections.emptyList();
     };
 
+    private final Function<Order, Integer> giftValueFunction = order -> {
+        if (this.event instanceof GiftEvent) {
+            return ((GiftEvent) this.event).getGifts(order).stream()
+                    .mapToInt(GiftItem::getTotalValue)
+                    .sum();
+        }
+        return 0;
+    };
+
     public int applyDiscount(Order order) {
         return discountFunction.apply(order);
     }
 
     public List<GiftItem> applyGift(Order order) {
         return giftFunction.apply(order);
+    }
+
+    public int applyGiftValue(Order order) {
+        return giftValueFunction.apply(order);
     }
 }
