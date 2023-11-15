@@ -7,20 +7,19 @@ public class ChristmasDiscountEvent extends DiscountEvent {
     private static final int ACCUMULATED_DISCOUNT_AMOUNT = 100;
 
     @Override
-    public int getDiscountAmount(Order order) {
+    protected int calculateDiscountAmount(Order order) {
         int date = order.getVisitDate().getDayOfMonth();
-        if (!canApply(order)) {
-            return 0;
-        }
         return INIT_AMOUNT + (date - START_DATE) * ACCUMULATED_DISCOUNT_AMOUNT;
     }
 
     @Override
-    public boolean canApply(Order order) {
+    protected boolean isEligible(Order order) {
         return checkEligibleDate(order.getVisitDate().getDayOfMonth());
     }
 
     private boolean checkEligibleDate(int date) {
         return date >= START_DATE && date <= END_DATE;
     }
+
+
 }

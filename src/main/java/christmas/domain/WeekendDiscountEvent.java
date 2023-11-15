@@ -8,17 +8,19 @@ public class WeekendDiscountEvent extends DiscountEvent {
     private static final int UNIT_DISCOUNT_AMOUNT = 2023;
 
     @Override
-    public int getDiscountAmount(Order order) {
+    protected int calculateDiscountAmount(Order order) {
         int quantityOfMain = order.getQuantityOfCategory(MAIN);
         return quantityOfMain * UNIT_DISCOUNT_AMOUNT;
     }
 
     @Override
-    public boolean canApply(Order order) {
+    protected boolean isEligible(Order order) {
         return isWeekend(order.getVisitDate().getDayOfWeek());
     }
 
     private boolean isWeekend(DayOfWeek dayOfWeek) {
         return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
     }
+
+
 }
