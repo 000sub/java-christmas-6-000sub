@@ -41,7 +41,6 @@ public class Order {
 
     private boolean hasOnlyBeverages() {
         return getQuantityOfCategory(BEVERAGE) == getTotalQuantity(orderedItems);
-
     }
 
     private int getUniqueMenuCount(List<OrderedItem> orderedItems) {

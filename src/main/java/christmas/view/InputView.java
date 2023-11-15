@@ -46,10 +46,22 @@ public class InputView {
     }
 
     private void validateNumber(String input) {
+        int number = parseInt(input);
+        if (isOutOfDateRange(number)) {
+            throw new IllegalArgumentException(INVALID_DATE_MESSAGE.getMessage());
+        }
+    }
+
+    private int parseInt(String input) {
         try {
-            Integer.parseInt(input);
+            return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             throw new NumberFormatException(INVALID_DATE_MESSAGE.getMessage());
         }
     }
+
+    private boolean isOutOfDateRange(int number) {
+        return number < 1 || number > 31;
+    }
+
 }
