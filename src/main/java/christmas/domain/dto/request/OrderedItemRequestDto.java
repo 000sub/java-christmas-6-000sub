@@ -3,39 +3,41 @@ package christmas.domain.dto.request;
 import static christmas.exception.Exceptions.INVALID_ORDER_MESSAGE;
 
 public class OrderedItemRequestDto {
-    private final static int MINIMUM_MENU_NAME_LENGTH = 1;
+    private static final int MINIMAL_MENU_NAME_LENGTH = 1;
+    private static final int MINIMAL_QUANTITY = 1;
+    private static final String FORMAT_SEPARATOR = "-";
 
     private final String menuName;
     private final int quantity;
 
-    public OrderedItemRequestDto(String menuName, int quantity) {
-        validateNameLength(menuName);
-        validateQuantity(quantity);
+    private OrderedItemRequestDto(String menuName, int quantity) {
         this.menuName = menuName;
         this.quantity = quantity;
+        validateNameLength();
+        validateQuantity();
     }
 
     public static OrderedItemRequestDto create(String menuInput) {
         validateInputFormat(menuInput);
-        String menuName = menuInput.split("-")[0];
-        int quantity = parseInt(menuInput.split("-")[1]);
+        String menuName = menuInput.split(FORMAT_SEPARATOR)[0];
+        int quantity = parseInt(menuInput.split(FORMAT_SEPARATOR)[1]);
         return new OrderedItemRequestDto(menuName, quantity);
     }
 
     private static void validateInputFormat(String input) {
-        if (input.split("-").length != 2) {
+        if (input.split(FORMAT_SEPARATOR).length != 2) {
             throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
 
-    private void validateNameLength(String name) {
-        if (name.length() < MINIMUM_MENU_NAME_LENGTH) {
+    private void validateNameLength() {
+        if (menuName.length() < MINIMAL_MENU_NAME_LENGTH) {
             throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
 
-    private void validateQuantity(int quantity) {
-        if (quantity < 1) {
+    private void validateQuantity() {
+        if (quantity < MINIMAL_QUANTITY) {
             throw new IllegalArgumentException(INVALID_ORDER_MESSAGE.getMessage());
         }
     }
